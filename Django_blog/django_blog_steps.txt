@@ -1,0 +1,174 @@
+#默认你的环境是python2.7，且已经装完毕Django,以及SQLite数据库
+(账户：root 密码：daizhaohui123)
+
+1.创建工程
+django-admin.py startproject mysite
+
+其中：
+manage.py ----- Django项目里面的工具，通过它可以调用django shell和数据库等。
+
+settings.py ---- 包含了项目的默认设置，包括数据库信息，调试标志以及其他一些工作的变量。
+
+urls.py ----- 负责把URL模式映射到应用程序。
+
+2.创建blog应用
+cd mysite
+python manage.py startapp blog
+
+3.切换到mysite创建数据库
+python manage.py migrate
+
+4.设置admin应用
+admin 是Django 自带的一个后台管理系统。
+添加blog应用，打开mysite/mysite/settings.py 文件：
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+)
+
+5.更改mysite/mysite/urls.py文件
+在我们创建django项目时，admin就已经创建，打开mysite/mysite/urls.py文件：
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^admin/', include(admin.site.urls)),
+]
+
+6.启动django容器
+python manage.py runserver
+
+ps：输入http://127.0.0.1:8000/admin，即可访问后台
+
+-----------------------
+设计Model(即设计数据库表)   
+-----------------------
+1.设计model
+现在我们打开blog目录下的models.py文件，这是我们定义blog数据结构的地方。打开mysite/blog/models.py 文件进行修改：
+from django.db import models
+from django.contrib import admin
+
+# Create your models here.
+class BlogsPost(models.Model):
+    title = models.CharField(max_length = 150)
+    body = models.TextField()
+    timestamp = models.DateTimeField()
+
+admin.site.register(BlogsPost)
+
+2.再次初始化数据库
+python manage.py makemigrations blog
+python manage.py migrate
+
+3.再次runserver启动服务，访问admin后台，创建文章。
+
+----------------------------
+设置admin 的BlogsPost界面      
+----------------------------
+1.打开mysite/blog/models.py 文件，做如下修改：
+from django.db import models
+from django.contrib import admin
+
+# Create your models here.
+class BlogsPost(models.Model):
+    title = models.CharField(max_length = 150)
+    body = models.TextField()
+    timestamp = models.DateTimeField()
+
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title','timestamp')
+    
+admin.site.register(BlogsPost,BlogPostAdmin)
+
+创建BlogPostAdmin类，继承admin.ModelAdmin父类，以列表的形式显示BlogPost的标题和时间。
+
+------------------
+创建blog的公共部分
+------------------
+从Django的角度看，一个页面具有三个典型的组件：
+
+一个模板（template）：模板负责把传递进来的信息显示出来。
+
+一个视图（view）：视图负责从数据库获取需要显示的信息。
+
+一个URL模式：它负责把收到的请求和你的试图函数匹配，有时候也会向视图传递一些参数。
+
+1.创建模板
+在blog项目下创建templates目录（mysite/blog/templates/）,在目录下创建模板文件blog.html，内容如下：
+{% for blog in blog_list %}
+    <h2>{{ blog.title }}</h2>
+    <p>{{ blog.timestamp }}</p>
+    <p>{{ blog.body }}</p>
+{% endfor%}
+
+2.创建视图函数
+打开mysite/blog/views.py文件：
+#coding=utf-8
+from django.shortcuts import render
+from blog.models import BlogsPost
+from django.shortcuts import render_to_response
+
+# Create your views here.
+def index(request):
+    blog_list = BlogsPost.objects.all()
+    return render_to_response('blog.html',{'blog_list':blog_list})
+
+说明：
+2.1 blog_list = BlogPost.objects.all() ：获取数据库里面所拥有BlogPost对象
+
+2.2 render_to_response()返回一个页面(blog.html)，顺带把数据库中查询出来的所有博客内容（blog_list）也一并返回。
+
+3.创建blog的URL模式
+在mysite/urls.py文件里添加blog的url：
+#coding=utf-8
+from django.conf.urls import url
+from django.contrib import admin
+from blog import views as recipes_views
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^blog/$', recipes_views.index),
+]
+
+4.再次启动服务器，访问blog应用http://127.0.0.1:8000/blog/
+
+
+------------------------------
+增加点效果
+--------------------------------
+可以在mysite/blog/templates/下，新建base.html文件：
+<html>
+      <style type="text/css">
+        body{color:#efd;background:#453;padding:0 5em;margin:0}
+        h1{padding:2em 1em;background:#675}
+        h2{color:#bf8;border-top:1px dotted #fff;margin-top:2em}
+        p{margin:1em 0}
+      </style>
+     
+      <body>
+        <h1>戴兆辉的博客</h1>
+        <h3>大人不华，君子务实</h3>
+        {% block content %}
+        {% endblock %}
+      </body>
+</html>
+
+然后在blog.html下，更新：
+{% extends "base.html" %}
+  {% block content %}
+      {% for post in blog_list %}
+      <h2>{{  post.title }}</h2>
+      <p>{{ post.timestamp | date:"1,F jS"}}</p>
+      <p>{{ post.body }}</p>
+      {% endfor %}
+  {% endblock %}
+保存，在启动服务器即可
+
