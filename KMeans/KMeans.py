@@ -1,5 +1,5 @@
 # _*_ coding:utf-8 _*_
-
+#一般KMeans方法
 import numpy as np
 from numpy import *
 import sys
@@ -13,8 +13,7 @@ def openfile(file):
         eachline_1=eachline.strip().split('\t')
         data.append(map(float,eachline_1))
     return array(data)
-        
-#------------------------------#
+
 #choose the kth initial point
 def choose_initil_point(k,data_1):
     if k >10:
@@ -44,15 +43,13 @@ def k_means(data_1,data_2):
     for i in range(len(data_1)):
         dist=np.inf
         min_index=-1
-        distance_1=0
         for j in range(len(data_2)):
             dist_1=data_1[i]-data_2[j]
             distance=sqrt((dist_1[0])**2+(dist_1[1])**2)
-            distance_1=distance_1+distance
             if distance<dist:
                 dist=distance
                 min_index=j
-        clusterAssment[i,:]=min_index,distance_1
+        clusterAssment[i,:]=min_index,dist
     
     for i in range(len(data_2)):
         x=[];y=[]
@@ -77,24 +74,26 @@ def hua_tu(amout,amout_1):
     plot(x,y,'r.',x_1,y_1,'go')
     show()
 
-k=input("k：")
-data_1=openfile('Kmean_test.txt')
-data_2=choose_initil_point(k, data_1)
-#initial value
-print "choose_initil_point",data_2
-sum_err=0
-err=0
-while err<0.0000001:
-    [outcomes,poly_point]=k_means(data_1, data_2)
-    sum_err_1=sum(outcomes[:,1])
-    err=sum_err_1-sum_err
-    sum_err=sum_err_1
-
-#the last value of poly_point
-print "poly_point:",poly_point
-print "sum_err:",sum_err
-
-hua_tu(data_1,poly_point)
+if __name__ == "__main__":
+#     k=input("k：")
+    k = 4
+    data_1=openfile('Kmean_test.txt')
+    data_2=choose_initil_point(k, data_1)
+    #initial value
+    print "choose_initil_point",data_2
+    sum_err=0
+    err=0
+    while err<0.0000001:
+        [outcomes,poly_point]=k_means(data_1, data_2)
+        sum_err_1=sum(outcomes[:,1])
+        err=sum_err_1-sum_err
+        sum_err=sum_err_1
+    
+    #the last value of poly_point
+    print "poly_point:",poly_point
+    print "sum_err:",sum_err
+    
+    hua_tu(data_1,poly_point)
 
     
 
