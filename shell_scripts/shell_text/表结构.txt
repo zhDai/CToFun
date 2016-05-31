@@ -1,0 +1,138 @@
+*/30 * * * * /home/daizhaohui/Desktop/dzh/shell_test/b.sh 
+*/10 * * * * /home/daizhaohui/Desktop/dzh/shell_text/b.sh 
+
+//pm25in的数据库表
+DROP TABLE crawl.pm25in CASCADE;
+CREATE TABLE crawl.pm25in
+        ( time_point varchar
+        , station_code varchar
+        , position_name varchar
+        , area varchar
+        , co varchar
+        , co_24h varchar
+        , no2 varchar
+        , no2_24h varchar
+        , o3 varchar
+        , o3_24h varchar
+        , o3_8h varchar
+        , o3_8h_24h varchar
+        , pm10 varchar
+        , pm10_24h varchar
+        , pm2_5 varchar
+        , pm2_5_24h varchar
+        , so2 varchar
+        , so2_24h varchar
+        , aqi varchar
+        , primary_pollutant varchar
+        , quality varchar
+        );
+
+//emission的数据库表
+DROP TABLE crawl.emission CASCADE;
+CREATE TABLE crawl.emission
+        ( IsSuccess varchar
+        , Latitude varchar
+        , Longitude varchar
+        , CompanyName varchar
+        , HasFK varchar
+        , FKLink varchar
+        , DataFrom varchar
+        , Sort varchar
+        , MonitoringPointName varchar
+        , F_Show varchar
+        , F_Show_Type varchar
+        , F_Amount varchar
+        , IndexName varchar
+        , F_Val varchar
+        , F_Standard varchar
+        , F_ExcessiveMultiples varchar
+        , F_IsExcessive varchar
+        , DataPublicTime varchar
+        , MonitorLevel varchar
+        , CloseDate varchar
+        , SeeId varchar
+        );
+//aqhi_gov_hk的数据库表
+DROP TABLE crawl.aqhi_gov_hk CASCADE;
+CREATE TABLE crawl.aqhi_gov_hk
+        ( station varchar
+        , datetime varchar
+        , no2 varchar
+        , o3 varchar
+        , so2 varchar
+        , co varchar
+        , pm10 varchar
+        , pm2_5 varchar
+        );
+//epd的数据库表
+DROP TABLE crawl.epd CASCADE;
+CREATE TABLE crawl.epd
+        ( timestamp varchar
+        , station varchar
+        , NO2 varchar
+        , O3 varchar
+	, SO2 varchar
+	, CO varchar
+	, PM10 varchar
+	, PM25 varchar
+        );
+//stateair的数据库表
+DROP TABLE crawl.stateair CASCADE;
+CREATE TABLE crawl.stateair
+        ( city varchar
+        , conc varchar
+        , aqi varchar
+        , primary varchar
+	, datetime varchar
+        );
+//wyoming的数据库表
+DROP TABLE crawl.wyoming CASCADE;
+CREATE TABLE crawl.wyoming
+        ( Station_identifier varchar
+        , Station_number varchar
+        , Observation_time varchar
+        , Station_latitude varchar
+        , Station_longitude varchar
+        , Station_elevation varchar
+        , Showalter_index varchar
+        , Lifted_index varchar
+        , LIFT_computed_using_virtual_temperature varchar
+        , SWEAT_index varchar
+        , K_index varchar
+        , Cross_totals_index varchar
+        , Vertical_totals_index varchar
+        , Totals_totals_index varchar
+        , Convective_Available_Potential_Energy varchar
+        , CAPE_using_virtual_temperature varchar
+        , Convective_Inhibition varchar
+        , CINS_using_virtual_temperature varchar
+        , Equilibrum_Level varchar
+        , Equilibrum_Level_using_virtual_temperature varchar
+        , Level_of_Free_Convection varchar
+	, LFCT_using_virtual_temperature varchar
+	, Bulk_Richardson_Number varchar
+	, Bulk_Richardson_Number_using_CAPV varchar
+	, Temp_of_the_Lifted_Condensation_Level varchar
+	, Pres_of_the_Lifted_Condensation_Level varchar
+	, Mean_mixed_layer_potential_temperature varchar
+	, Mean_mixed_layer_mixing_ratio varchar
+	, one_thousand_hPa_to_five_hundred_hPa_thickness varchar
+	, Precipitable_water_for_entire_sounding varchar
+        );
+//wyoming另外一个表
+DROP TABLE crawl.wyoming_another CASCADE;
+CREATE TABLE crawl.wyoming_another
+        ( Datetime varchar
+        , Station_number varchar
+        , PRES_hPa varchar
+        , HGHT_m varchar
+        , TEMP_C varchar
+        , DWPT_C varchar
+        , RELH_PERCENT varchar
+        , MIXR_g_kg  varchar
+        , DRCT_deg varchar
+        , SKNT_knot varchar
+        , THTA_K varchar
+        , THTE_K varchar
+        , THTV_K varchar
+        );
