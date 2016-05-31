@@ -1,0 +1,34 @@
+package cn.ct.em.draw.core.vector;
+
+import cn.ct.em.draw.core.vector.WindRenderCore;
+import cn.ct.em.draw.model.PictureInfo;
+
+public class test {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		PictureInfo picInf = new PictureInfo();;
+	    picInf.fileName = "/home/daizhaohui/Desktop/dzh/wind.nc";
+	    picInf.Wind_U = "UWIND";
+	    picInf.Wind_V = "VWIND";
+	    picInf.time = 1;
+	    picInf.layer = 1;
+	    picInf.mapH= 4862938.890351994;
+//	    WindRenderCore obj = WindReanderFactory.getMercatorSVGArrow();
+	    WindRenderCore obj = WindReanderFactory.getMercatorSVGBarb();
+<<<<<<< .mine
+//	    WindRenderCore obj = new WindRenderCore();
+//		obj.shape = new WindBarRender();
+//		obj.svg = new SVGRenderBarb();
+	    String s = obj.rander(picInf);	    
+=======
+	    String s = obj.render(picInf);	    
+>>>>>>> .r1399
+	    System.out.println(s);
+
+	}
+
+}

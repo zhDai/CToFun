@@ -1,0 +1,66 @@
+重启数据库，需要在root下(service postgresql-9.5 restart)
+关掉数据库防火墙，需要root下(service iptables stop)
+设置网络连接需要root（修改pg_hba.conf,为了用pgAdmin连接）
+（如下操作，是在postgresql安装完毕的前提下，superuser用户名是：postgres，密码为123）
+操作：
+1.用postgres用户，创建一个名为zhdai的用户，密码设置为123456
+输入：/opt/PostgreSQL/9.5/bin/psql -U postgres -c "create user zhdai with password '123456';"
+显示：Password for user postgres: （输入123）
+结果：CREATE ROLE
+2.用postgres用户，创建一个名为zbase的数据库，由zhdai所有
+输入：/opt/PostgreSQL/9.5/bin/psql -U postgres -c "create database zbase owner zhdai;"
+显示：Password for user postgres: （输入123）
+结果：CREATE DATABASE
+
+3.导入数据-pm25in文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema pm25in"
+3.1）新建数据表格：
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table pm25in.pm25in(time_point varchar, station_code varchar, position_name varchar, area varchar, co varchar, co_24h varchar, no2 varchar, no2_24h varchar, o3 varchar, o3_24h varchar, o3_8h varchar, o3_8h_24h varchar, pm10 varchar, pm10_24h varchar, pm2_5 varchar, pm2_5_24h varchar, so2 varchar, so2_24h varchar, aqi varchar, primary_pollutant varchar, quality varchar);"
+3.2）copy数据，其中数据所在路径（/data/static/pm25in/2016-05-15）：
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "\copy pm25in.pm25in from '/data/static/pm25in/2016-05-15/20160515004501.tsv'"
+3.3)遍历，copy所有pm25in文件里面的所有数据
+输入：./pm25in.sh /data/static/pm25in
+
+4.导入图片数据-radar文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema radar"
+4.1）新建表格：
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table radar.China(Data varchar,adress varchar,picpath varchar)"(日期，地区，图片路径)
+4.2）导入图片信息，包括日期、地区、图片所在路径
+输入：./radar.sh /data/static/radar (radar文件的所在的绝对路径)
+
+5.导入图片数据-satelite文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema satelite"
+5.1）新建数据表格
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table satelite.Japan(Date varchar,adress varchar,picpath varchar);"(日期，地区，图片路径)
+5.2）导入图片信息，包括日期、地区、图片所在路径
+输入：./satelite.sh /data/static/satellite (satelite文件的所在的绝对路径)
+
+6.导入图片数据-weather_chart文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema weather_chart"
+6.1）新建数据表格
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table weather_chart.china(Date varchar,adress varchar,picpath varchar);"(日期，地区，图片路径)
+6.2）导入图片信息，包括日期、地区、图片所在路径
+输入：./weather_chart.sh /data/static/weather_chart (weather_chart文件的所在的绝对路径)
+
+7.导入图片数据-nmc_others文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema nmc_others"
+7.1）新建数据表格
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table nmc_others.nmc_others(Date varchar,optionA varchar,optionB varchar,picpath varchar);"(日期，选项A，选项B，图片路径)
+7.2)导入图片信息
+输入：./nmc_others.sh /data/static/nmc_others (nmc_others文件的所在的绝对路径)
+
+8.导入flatfile格式的数据-ftp.wmo.int文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema ftp_wmo_int"
+8.1）新建数据表格
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table ftp_wmo_int.VolA_New(RegionI varchar,RegionName varchar,CountryArea varchar,CountryCode varchar,StationId varchar,IndexNbr varchar,IndexSubNbr varchar,StationName varchar,Latitude varchar,Longitude varchar,Hp varchar,HpFlag varchar,Hha varchar,HhaFlag  varchar,PressureDefId varchar,SO1 varchar,SO2 varchar,SO3 varchar,SO4 varchar,SO5 varchar,SO6 varchar,	SO7 varchar,SO8 varchar,ObsHs varchar,UA1 varchar,UA2 varchar,UA3 varchar,UA4 varchar,ObsRems varchar);"
+8.2）导入数据
+输入:./ftp.wmo.int.sh /data/static/ftp.wmo.int
+
+9.导入txt数据-weather.noaa.gov文件
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create schema weather_noaa_gov"
+9.1）新建数据表格
+输入：/opt/PostgreSQL/9.5/bin/psql -U zhdai -d zbase -c "create table weather_noaa_gov.data(d1 varchar,d2 varchar,d3 varchar,d4 varchar,d5 varchar,d6 varchar,d7 varchar,d8 varchar,d9 varchar,d10 varchar,d11 varchar,d12 varchar,d13 varchar,d14 varchar);"
+9.2）导入txt数据
+cat nsd_bbsss.txt | tr -d ["\r"] > nsd2.txt-----去掉^M
+cut -d ";" -f 1,2,3,4,5,6,7,8,9,10,11,12,13 nsd2.txt > nsd3.txt----读取1～13列的数据
+输入：./weather_noaa_gov.sh /data/static/weather.noaa.gov

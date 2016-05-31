@@ -1,0 +1,50 @@
+package cn.ct.em.draw.model;
+
+public class PictureInfo {
+	//buffer
+//	private String key;
+	
+	//other infos;
+	public String fileName;
+	public int time; // frame in nc
+	public String species;
+	public int layer;
+	public double max;
+	public double min;
+	public int step;
+	public String colour;
+	
+	public String Wind_U;
+	public String Wind_V;
+
+	public double height;	//地图高
+	
+	public int xDiv;	//总分块
+	public int yDiv;
+	public int xNum;	//第几分块
+	public int yNum;
+	
+	
+	public String getKey() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(fileName)
+		.append("#").append(time)
+		.append("#").append(species)
+		.append("#").append(layer)
+		.append("#").append(max)
+		.append("#").append(min)
+		.append("#").append(step)
+		.append("#").append(colour)
+		.append("#").append(height)
+		.append("#").append(xDiv)
+		.append("#").append(yDiv)	
+		.append("#").append(xNum)
+		.append("#").append(yNum);
+		return sb.toString();
+	}
+//	public void setKey(String key) {
+//		this.key = key;
+//	}
+	
+	
+}

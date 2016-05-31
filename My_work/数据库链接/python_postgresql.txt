@@ -1,0 +1,266 @@
+安装
+PostgreSQL可以用Python psycopg2模块集成。 sycopg2是Python编程语言的PostgreSQL数据库的适配器。 其程序代码少，速度快，稳定。不需要单独安装这个模块，因为它默认情况下被运往随着Python版本在2.5.x一起的。如果不把它安装在机器上，然后可以使用yum命令安装它，如下所示：
+
+$yum install python-psycopg2
+ www.yiibai.com 
+要使用psycopg2的模块，首先必须创建一个Connection对象，它表示数据库然后再可以选择创建游标对象，这将帮助执行的所有SQL语句。 www.yiibai.com
+
+Python psycopg2 模块APIs
+以下是psycopg2的重要的的模块例程可以满足Python程序与PostgreSQL数据库的工作。如果寻找一个更复杂的应用程序，那么可以看看Python psycopg2的模块的官方文档。 www.yiibai.com
+
+S.N.	API & 描述
+1	psycopg2.connect(database="testdb", user="postgres", password="cohondob", host="127.0.0.1", port="5432") 
+这个API打开一个连接到PostgreSQL数据库。如果成功打开数据库时，它返回一个连接对象。 www.yiibai.com
+
+2	connection.cursor()
+该程序创建一个光标将用于整个数据库使用Python编程。 yiibai.com
+
+3	cursor.execute(sql [, optional parameters])
+此例程执行SQL语句。可被参数化的SQL语句（即占位符，而不是SQL文字）。 psycopg2的模块支持占位符用％s标志 yiibai.com
+
+例如：cursor.execute("insert into people values (%s, %s)", (who, age))
+
+4	curosr.executemany(sql, seq_of_parameters)
+该程序执行SQL命令对所有参数序列或序列中的sql映射。 www.yiibai.com
+
+5	curosr.callproc(procname[, parameters])
+这个程序执行的存储数据库程序给定的名称。该程序预计为每一个参数，参数的顺序必须包含一个条目。
+
+6	cursor.rowcount
+这个只读属性，它返回数据库中的行的总数已修改，插入或删除最后 execute*().
+
+7	connection.commit()
+此方法提交当前事务。如果不调用这个方法，无论做了什么修改，自从上次调用commit()是不可见的，从其他的数据库连接。
+
+8	connection.rollback()
+此方法会回滚任何更改数据库自上次调用commit（）方法。
+
+9	connection.close()
+此方法关闭数据库连接。请注意，这并不自动调用commit（）。如果你只是关闭数据库连接而不调用commit（）方法首先，那么所有更改将会丢失！ www.yiibai.com
+
+10	cursor.fetchone()
+这种方法提取的查询结果集的下一行，返回一个序列，或者无当没有更多的数据是可用的。
+
+11	cursor.fetchmany([size=cursor.arraysize])
+这个例程中取出下一个组的查询结果的行数，返回一个列表。当没有找到记录，返回空列表。该方法试图获取尽可能多的行所显示的大小参数。
+
+12	cursor.fetchall()
+这个例程获取所有查询结果（剩余）行，返回一个列表。空行时则返回空列表。 www.yiibai.com
+
+连接到数据库
+Python代码显示了如何连接到一个现有的数据库。如果数据库不存在，那么它就会被创建，最终将返回一个数据库对象。 yiibai.com
+
+#!/usr/bin/python
+
+import psycopg2
+
+conn = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+
+print "Opened database successfully"  
+在这里，也可以提供数据库testdb的名称，如果数据库成功打开，那么它会给下面的消息：
+
+Open database successfully
+  
+创建表
+以下Python程序将使用以前创建的数据库中创建一个表：
+
+#!/usr/bin/python
+
+import psycopg2
+
+conn = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+print "Opened database successfully"
+
+cur = conn.cursor()
+cur.execute('''CREATE TABLE COMPANY
+       (ID INT PRIMARY KEY     NOT NULL,
+       NAME           TEXT    NOT NULL,
+       AGE            INT     NOT NULL,
+       ADDRESS        CHAR(50),
+       SALARY         REAL);''')
+print "Table created successfully"
+
+conn.commit()
+conn.close()  
+上述程序执行时，它会创建表COMPANY 在数据库test.db中，它会显示以下消息：
+
+Opened database successfully
+Table created successfully
+  
+INSERT 操作
+Python程序显示了我们如何创建表COMPANY 在上面的例子中创建表中的记录：
+
+#!/usr/bin/python
+
+import psycopg2
+
+conn = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+print "Opened database successfully"
+
+cur = conn.cursor()
+
+cur.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+      VALUES (1, 'Paul', 32, 'California', 20000.00 )");
+
+cur.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+      VALUES (2, 'Allen', 25, 'Texas', 15000.00 )");
+
+cur.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+      VALUES (3, 'Teddy', 23, 'Norway', 20000.00 )");
+
+cur.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+      VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 )");
+
+conn.commit()
+print "Records created successfully";
+conn.close() yiibai.com 
+上述程序执行时，它会创建COMPANY表中的记录，并显示以下两行：
+
+Opened database successfully
+Records created successfully
+ yiibai.com 
+SELECT 操作
+Python程序，显示如何获取并显示COMPANY 表在上面的例子中创建的记录：
+
+#!/usr/bin/python
+
+import psycopg2
+
+conn = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+print "Opened database successfully"
+
+cur = conn.cursor()
+
+cur.execute("SELECT id, name, address, salary  from COMPANY")
+rows = cur.fetchall()
+for row in rows:
+   print "ID = ", row[0]
+   print "NAME = ", row[1]
+   print "ADDRESS = ", row[2]
+   print "SALARY = ", row[3], "\n"
+
+print "Operation done successfully";
+conn.close()  
+当上述程序执行时，它会产生以下结果：
+
+Opened database successfully
+ID =  1
+NAME =  Paul
+ADDRESS =  California
+SALARY =  20000.0
+
+ID =  2
+NAME =  Allen
+ADDRESS =  Texas
+SALARY =  15000.0
+
+ID =  3
+NAME =  Teddy
+ADDRESS =  Norway
+SALARY =  20000.0
+
+ID =  4
+NAME =  Mark
+ADDRESS =  Rich-Mond
+SALARY =  65000.0
+
+Operation done successfully
+  
+UPDATE 操作
+Python代码显示如何，我们可以使用UPDATE语句来更新记录，然后从COMPANY表获取并显示更新的记录：
+
+#!/usr/bin/python
+
+import psycopg2
+
+conn = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+print "Opened database successfully"
+
+cur = conn.cursor()
+
+cur.execute("UPDATE COMPANY set SALARY = 25000.00 where ID=1")
+conn.commit
+print "Total number of rows updated :", cur.rowcount
+
+cur.execute("SELECT id, name, address, salary  from COMPANY")
+rows = cur.fetchall()
+for row in rows:
+   print "ID = ", row[0]
+   print "NAME = ", row[1]
+   print "ADDRESS = ", row[2]
+   print "SALARY = ", row[3], "\n"
+
+print "Operation done successfully";
+conn.close()  
+当上述程序执行时，它会产生以下结果：
+
+Opened database successfully
+Total number of rows updated : 1
+ID =  1
+NAME =  Paul
+ADDRESS =  California
+SALARY =  25000.0
+
+ID =  2
+NAME =  Allen
+ADDRESS =  Texas
+SALARY =  15000.0
+
+ID =  3
+NAME =  Teddy
+ADDRESS =  Norway
+SALARY =  20000.0
+
+ID =  4
+NAME =  Mark
+ADDRESS =  Rich-Mond
+SALARY =  65000.0
+
+Operation done successfully
+  
+DELETE 操作
+Python代码显示了如何我们可以使用DELETE语句删除记录，然后获取并显示COMPANY 表剩余的记录： 
+
+#!/usr/bin/python
+
+import psycopg2
+
+conn = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+print "Opened database successfully"
+
+cur = conn.cursor()
+
+cur.execute("DELETE from COMPANY where ID=2;")
+conn.commit
+print "Total number of rows deleted :", cur.rowcount
+
+cur.execute("SELECT id, name, address, salary  from COMPANY")
+rows = cur.fetchall()
+for row in rows:
+   print "ID = ", row[0]
+   print "NAME = ", row[1]
+   print "ADDRESS = ", row[2]
+   print "SALARY = ", row[3], "\n"
+
+print "Operation done successfully";
+conn.close()  
+当上述程序执行时，它会产生以下结果：
+
+Opened database successfully
+Total number of rows deleted : 1
+ID =  1
+NAME =  Paul
+ADDRESS =  California
+SALARY =  20000.0
+
+ID =  3
+NAME =  Teddy
+ADDRESS =  Norway
+SALARY =  20000.0
+
+ID =  4
+NAME =  Mark
+ADDRESS =  Rich-Mond
+SALARY =  65000.0
+
+Operation done successfully www.yiibai.com 

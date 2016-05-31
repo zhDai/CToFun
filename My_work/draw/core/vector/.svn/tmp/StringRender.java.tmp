@@ -1,0 +1,15 @@
+package cn.ct.em.draw.core.vector;
+
+<<<<<<< .mine
+import cn.ct.em.calculate.NcData;
+=======
+public abstract class StringRender {
+>>>>>>> .r1394
+
+<<<<<<< .mine
+public abstract class StringRender {
+	public abstract String toString(WindInfo[][] wind, NcData ncData,int sample);
+=======
+	public abstract String ShapeToString(WindInfo[][] wind );
+>>>>>>> .r1394
+}
