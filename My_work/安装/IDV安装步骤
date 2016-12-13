@@ -1,0 +1,25 @@
+ 1.下载IDV源代码
+    idv_jars_5.1u2.zip
+    idv_src_5.1u2.jar
+
+2. 解压
+tar zxvf idv_jars_5.1u2.zip
+cp idv_jars_5.1u2.zip idv_src_5.1u2
+cd idv_src_5.1u2
+tar zxvf idv_jars_5.1u2.zip
+mv idv_jars_5.1u2 lib
+
+3.eclipse新建ant project。
+  导入idv_src_5.1u2/build.xml
+
+4.下载IDV install版
+idv_5_0u2_linux64_installer.sh
+
+5.安装IDV install版
+./idv_5_0u2_linux64_installer.sh
+
+6.在eclipse工程里添加系统库
+把安装的IDV的IDV_5.0u2/jre加入system library
+
+7.在eclipse工程里添加图片库
+把安装的IDV的IDV_5.0u2/auxdata.jar加入referenced library

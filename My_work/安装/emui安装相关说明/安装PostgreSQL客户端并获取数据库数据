@@ -1,0 +1,52 @@
+安装 postgresql 并获取 数据库数据
+
+
+一. 用源码包安装 postgresql
+参考 http://www.cnblogs.com/mchina/archive/2012/06/06/2539003.html
+
+1. 下载源码包
+wget http://ftp.postgresql.org/pub/source/v9.5.3/postgresql-9.5.3.tar.gz
+
+2. 解压源码包
+tar zxvf postgresql-9.5.3.tar.gz
+
+3. 进入解压后的目录
+cd postgresql-9.5.3
+
+4. 开始在自定义的目录下编译安装PostgreSQL 数据库。
+用 "--prefix" 指定路径
+./configure --prefix=/home/jszhu/soft/postgresql953
+gmake
+gmake install
+
+5. 设置环境变量和动态链接库
+可以在用户根目录的 .bashrc 文件中添加：
+    export PATH=/home/jszhu/soft/postgresql953/bin:-$PATH
+    export LD_LIBRARY_PATH=$HOME/soft/postgresql953/lib:-$LD_LIBRARY_PATH
+或者只在使用数据库时申明。
+
+
+二、连接数据库获取数据
+三种客户端连接 PostgreSQL 不用密码的方法:
+http://www.cnblogs.com/mchina/archive/2012/06/06/2539003.html
+以下测试代码用的方法是 设置环境变量 PGPASSWORD。
+
+测试代码：
+#!/bin/bash
+
+db_address="118.102.25.143"
+db_basename="zbase"
+db_user="zhdai"
+table_name="pm25in.pm25in"
+time_point="'2016-05-15T00:00:00Z'"
+outfile="/home/jszhu/temptest/postgresql/a.csv"
+
+export PATH=$HOME/soft/postgresql953/bin:-$PATH
+export LD_LIBRARY_PATH=$HOME/soft/postgresql953/lib:-$LD_LIBRARY_PATH
+
+PGPASSWORD=123456 \
+    psql -h $db_address \
+         -d $db_basename \
+         -U $db_user \
+         -c "\copy (select * from ${table_name} where time_point = ${time_point}) to ${outfile} with csv;"
+

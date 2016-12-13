@@ -1,0 +1,132 @@
+#plroxy处理
+新建MyClusterInit.sql 
+create schema plproxy;
+
+CREATE OR REPLACE FUNCTION plproxy.get_cluster_partitions(cluster_name text)
+RETURNS SETOF text AS $$
+BEGIN
+    IF cluster_name = 'MyCluster' THEN
+        RETURN NEXT 'dbname=slave01 host=127.0.0.1';
+        RETURN NEXT 'dbname=slave02 host=127.0.0.1';
+	RETURN NEXT 'dbname=slave03 host=127.0.0.1';
+	RETURN NEXT 'dbname=slave04 host=127.0.0.1';
+        RETURN;
+    END IF;
+    RAISE EXCEPTION 'Unknown cluster';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION plproxy.get_cluster_version(cluster_name text)
+RETURNS int4 AS $$
+BEGIN
+    IF cluster_name = 'MyCluster' THEN
+        RETURN 1;
+    END IF;
+    RAISE EXCEPTION 'Unknown cluster';
+END;
+$$ LANGUAGE plpgsql;
+
+create or replace function plproxy.get_cluster_config(cluster_name text, out key text, out val text)
+returns setof record as $$
+begin
+    key := 'statement_timeout';
+    val := 60;
+    return next;
+    return;
+end; $$ language plpgsql;
+
+--执行
+psql -f MyClusterInit.sql -d testproxy
+psql -U postgres -f MyClusterInit.sql -d em_master;
+
+#新建MyClusterNodesInit.sql
+create or replace function public.dquery(query text) returns setof record as $$
+declare
+   ret record;
+begin
+     for ret in execute query loop
+     return next ret;
+     end loop;
+     return;
+end;
+$$ language plpgsql;
+
+create or replace function public.ddlExec(query text) returns integer as $$
+declare
+   ret integer;
+begin
+   execute query;
+   return 1;
+end;
+$$ language plpgsql;
+
+create or replace function public.dmlExec(query text) returns integer as $$
+declare
+   ret integer;
+begin
+   execute query;
+   return 1;
+end;
+$$ language plpgsql;
+
+--执行  test1和test2是节点数据库，以及它们对应的地址
+psql -f MyClusterNodesInit.sql -h 192.168.1.1 -d test1
+psql -f MyClusterNodesInit.sql -h 192.168.1.2 -d test2
+psql -U postgres -f MyClusterNodesInit.sql -h 127.0.0.1 -d slave03
+psql -U postgres -f MyClusterNodesInit.sql -h 127.0.0.1 -d slave04
+
+#新建MyClusterProxyExec.sql
+CREATE OR REPLACE FUNCTION public.dquery(query text) RETURNS setof
+record AS $$
+CLUSTER 'MyCluster';
+RUN ON ALL;
+$$ LANGUAGE plproxy;
+
+CREATE OR REPLACE FUNCTION public.ddlexec(query text) RETURNS setof integer
+AS $$
+CLUSTER 'MyCluster';
+RUN ON ALL;
+$$ LANGUAGE plproxy;
+
+CREATE OR REPLACE FUNCTION public.dmlexec(query text) RETURNS setof integer
+AS $$
+CLUSTER 'MyCluster';
+RUN ON ANY;
+$$ LANGUAGE plproxy;
+
+--执行
+psql -f  MyClusterProxyExec.sql -d testproxy
+
+
+#建立索引
+select * from public.ddlexec('CREATE INDEX snap_time_index ON mobile0.testgeo USING btree(snap_time)'); --11:09min
+select * from public.ddlexec('CREATE INDEX the_geom_index ON mobile0.testgeo USING gist(the_geom)');   --2h7min
+#相交
+explain analyze verbose select * from public.ddlexec('select t1.id , count( * ) from base_grid as t1, mobile0.testgeo as t2 where st_intersects(t1.the_geom, t2.the_geom) group by t1.id');
+ 
+select st_astext(the_geom),sum(countn) as numbers from public.dquery('select t1.id , t1.the_geom, count( * ) from base_grid as t1, (select * from mobile0.testgeo limit 100) as t2 where st_intersects(t1.the_geom, t2.the_geom) group by t1.id') as (id character varying(48), 
+the_geom geometry(Polygon,4326),countn bigint) group by the_geom;
+
+--结果：
+"Function Scan on public.ddlexec  (cost=0.25..10.25 rows=1000 width=4) (actual time=15598422.693..15598422.694 rows=2 loops=1)"
+"  Output: ddlexec"
+"  Function Call: ddlexec('select t1.id , count( * ) from base_grid as t1, mobile0.testgeo as t2 where st_intersects(t1.the_geom, t2.the_geom) group by t1.id'::text)"
+"Planning time: 0.025 ms"
+"Execution time: 15598435.536 ms"
+
+4h19min
+
+time /opt/PostgreSQL/9.5/bin/psql -d slave01 -U postgres -c 'select t1.id , count( * ) from base_grid as t1, mobile0.testgeo as t2 where st_intersects(t1.the_geom, t2.the_geom) group by t1.id;'   --135m57.008s (10000 points)
+
+time /opt/PostgreSQL/9.5/bin/psql -d slave01 -U postgres -c 'select t1.id , count( * ) from e_base_grid as t1, mobile0.testgeo as t2 where st_intersects(t1.the_geom, t2.the_geom) group by t1.id;'  --98m2.498s (2500 points)
+
+time /opt/PostgreSQL/9.5/bin/psql -d slave01 -U postgres -c 'select t1.id , count( * ) from e_base_grid as t1, mobile0.testgeo as t2 where st_intersects(t1.the_geom, t2.the_geom) group by t1.id;'  --125m36.297s  (40000 points)
+
+#两个数据库同时执行，均要4h20m
+
+
+
+
+
+
+

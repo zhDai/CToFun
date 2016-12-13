@@ -1,0 +1,26 @@
+﻿create table rawgeo.highway_1 as select * from rawgeo.highway where name is not NULL
+
+select st_astext(geom),snodeid,enodeid,gid,name from rawgeo.highway_1 limit 200
+
+select ST_Union(t1.geom,t2.geom), t1.snodeid, t2.enodeid from rawgeo.highway_1 as t1, rawgeo.highway_1 as t2 where t1.enodeid = t2.snodeid limit 1
+
+select * from rawgeo.highway_2 
+
+create table rawgeo.highway_2 as select t1.* from rawgeo.highway as t1 where t1.name like 'G60-%'
+
+ALTER TABLE rawgeo.highway_8 ADD COLUMN name varchar(128);
+
+select * from rawgeo.highway_8
+
+update rawgeo.highway_8 set name = 'G60'
+
+select * from rawgeo.highway_1 where name like 'G1-%'
+
+select ST_AsText(t1.geom),t1.geom from (select * from rawgeo.highway_1 where name like 'G1-%')t1
+
+select name from rawgeo.highway_1 where name not like 'G%' and name not like 'S%' group by name 
+
+//新建一个不包含国道和省道的高速公路---（立交桥这一类等等）表格
+create table rawgeo.highway_other as select * from rawgeo.highway_1 where name not like 'G%' and name not like 'S%'
+
+

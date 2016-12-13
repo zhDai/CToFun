@@ -1,0 +1,64 @@
+解压geoserver-2.7.1-bin
+
+需要建立java环境
+解压jdk1.7.0_40.tar.gz.
+vim ~/.bash_profile
+添加：export JAVA_HOME=/home/xschen/WORK/software/installed/java/jdk1.7.0_40/jre（这是jdk的路径，需看情况修改）
+
+cd geoserver-2.7.1-bin/bin
+source ~/.bash_profile
+./startup.sh
+
+打开浏览器
+http://127.0.0.1:8080/geoserver/web/
+用户名 admin
+密码 geoserver
+
+
+第一步，建立workspace
+点击左侧 workspaces
+点击上方 add new workspace 
+用户名填 em
+url天 em
+勾选 Default Workspace
+
+第二步，打开workspace的WMS服务
+再次点击 em 进入建立好的workspace 
+勾选 WMS （这个是底图服务）
+
+第三步，建立数据库链接
+点击左侧 store
+点击上方 add new stroe
+点击 PostGIS - PostGIS Database （另外，这里其他选项可以导入arcgis的shape文件，geotiff文件等）
+Data Source Name 填 polygon
+host 填 localhost
+port 填 5432
+database 填 em2 (另外，可以加入其他更多数据)
+schema 填 rawgeo
+user 填 postgres
+passwd 填 123123
+点save保存
+
+选 guo 点 publish进入Edit Layer页面
+在标签页Data（默认）下
+在 Coordinate Reference System 中的 Declared SRS选坐标系（如果自动识别出来了就不选了）坐标系选择时要按数据本身坐标选。
+    在em2的所有数据中的坐标是 EPSG:4326。
+    在em_rawgeo的所有数据的坐标是 EPSG:3857。
+在Bounding Boxes里
+    点击compute from data 自动算出边界
+    点击compute from native bounds 自动算出边界
+
+在标签页Publish下
+Default Style 选 polygon
+
+转到Edit Layer（如果没有自动跳转，点击左侧Layer。选则刚才发布的数据，点击 Layer Name 列的名字 the_geom）
+在标签页Tile Caching下
+可调整 Available gridsets
+其中EPSG:900913是为arcgisJS做的瓦片图，可调整published zoom levels和 cached zoom levels
+其中EPSG:4326是通用瓦片
+根据前端JS的需求可以加入更多瓦片。点add grid subset选择瓦片类型点右边的+
+
+ps:
+可以在Layer Preview查看效果
+
+

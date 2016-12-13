@@ -1,0 +1,105 @@
+--update e_grid set the_geog = Geography(the_geom)
+select CT_InsertSurfaceWKT( srctb.uuid, ST_AsText(srctb.geom), 4326,        srctb.name,    'admin',           '1',             srctb.parent ) from rawgeo.sheng as srctb;
+--select CT_CutSurfacePiece(srctb.uuid, Geography(ST_MakeValid(ST_GeomFromText(ST_AsText(srctb.geom),4326))),'1') from rawgeo.sheng as srctb;
+
+
+
+DROP FUNCTION IF EXISTS    CT_CutSurfacePiece(vid varchar, g4326 geography, vkind varchar );
+CREATE OR REPLACE FUNCTION CT_CutSurfacePiece(vid varchar, g4326 geography, vkind varchar ) RETURNS void AS $$
+    DECLARE
+        rec RECORD;
+        recc RECORD;
+        reccc RECORD;
+    BEGIN
+
+        FOR rec IN SELECT e_base_grid_1.id as gid,  ST_Intersection(e_base_grid_1.the_geog, g4326) as the_geog FROM e_base_grid_1 
+                         WHERE ST_Intersects(e_base_grid_1.the_geog, g4326)                         --改为the_geog,并删掉了判断GeometryType类型和ST_Multi函数
+        LOOP
+            IF st_npoints(rec.the_geog::geometry) < 20 THEN
+                 INSERT INTO e_surface_piece (surface_id, grid1_id, grid2_id, grid3_id, grid4_id, level, the_geog, kind) VALUES (vid, rec.gid, 0, 0, 0, 1, rec.the_geog, vkind);
+            ELSE
+                 FOR recc IN SELECT e_base_grid_2.id as gid,  ST_Intersection(e_base_grid_2.the_geog, rec.the_geog) as the_geog FROM e_base_grid_2 
+                                    WHERE ST_Intersects(e_base_grid_2.the_geog, rec.the_geog)       --改为the_geog,并删掉了判断GeometryType类型和ST_Multi函数
+                 LOOP
+                    IF st_npoints(recc.the_geog::geometry) < 20 THEN
+                        INSERT INTO e_surface_piece (surface_id, grid1_id, grid2_id, grid3_id, grid4_id, level, the_geog, kind) VALUES (vid, rec.gid, recc.gid, 0, 0, 2, recc.the_geog, vkind);
+                    ELSE
+                         FOR reccc IN SELECT e_base_grid_3.id as gid,  ST_Intersection(e_base_grid_3.the_geog, recc.the_geog) as the_geog FROM e_base_grid_3 
+                                            WHERE ST_Intersects(e_base_grid_3.the_geog, recc.the_geog)
+                         LOOP
+                             IF st_npoints(reccc.the_geog::geometry) < 20 THEN
+                                  INSERT INTO e_surface_piece (surface_id, grid1_id, grid2_id, grid3_id, grid4_id, level, the_geog, kind) VALUES (vid, rec.gid, recc.gid, reccc.gid, 0, 3, reccc.the_geog, vkind);
+                             ELSE
+                                  INSERT INTO e_surface_piece (surface_id, grid1_id, grid2_id, grid3_id, grid4_id, level, the_geog, kind) SELECT vid, rec.gid, recc.gid, reccc.gid, e_base_grid_4.id, 4, ST_Intersection(e_base_grid_4.the_geog, reccc.the_geog), vkind FROM e_base_grid_4 
+                                             WHERE ST_Intersects(e_base_grid_4.the_geog, reccc.the_geog);
+
+                             END IF;
+                         END LOOP;
+                     END IF;
+                 END LOOP;  
+             END IF;
+         END LOOP;    
+
+    END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- Table: public.e_surface_piece
+
+-- DROP TABLE public.e_surface_piece;
+
+CREATE TABLE public.e_surface_piece
+(
+  surface_id character varying(48) NOT NULL,
+  level integer,
+  kind character varying(10),
+  the_geom geometry(MultiPolygon,4326),
+  the_geog geography,
+  grid1_id character varying(48),
+  grid2_id character varying(48),
+  grid3_id character varying(48),
+  grid4_id character varying(48),
+  CONSTRAINT e_surface_piece_pkey PRIMARY KEY (surface_id, grid1_id,grid2_id,grid3_id,grid4_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.e_surface_piece
+  OWNER TO postgres;
+
+-- Index: public.e_surface_piece_geography_the_geom_idx
+
+-- DROP INDEX public.e_surface_piece_geography_the_geom_idx;
+
+CREATE INDEX e_surface_piece_geography_the_geom_idx
+  ON public.e_surface_piece
+  USING gist
+  (geography(the_geom));
+
+-- Index: public.e_surface_piece_level_idx
+
+-- DROP INDEX public.e_surface_piece_level_idx;
+
+CREATE INDEX e_surface_piece_level_idx
+  ON public.e_surface_piece
+  USING btree
+  (level);
+
+-- Index: public.e_surface_piece_the_geog_idx
+
+-- DROP INDEX public.e_surface_piece_the_geog_idx;
+
+CREATE INDEX e_surface_piece_the_geog_idx
+  ON public.e_surface_piece
+  USING gist
+  (the_geog);
+
+-- Index: public.e_surface_piece_the_geom_idx
+
+-- DROP INDEX public.e_surface_piece_the_geom_idx;
+
+CREATE INDEX e_surface_piece_the_geom_idx
+  ON public.e_surface_piece
+  USING gist
+  (the_geom);

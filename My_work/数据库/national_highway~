@@ -1,0 +1,54 @@
+﻿select * from rawgeo.national_highway_1 where name like 'S%'
+
+create table rawgeo.highway_other as select * from rawgeo.highway_1 where name not like 'G%' and name not like 'S%'
+
+create table rawgeo.national_highway_other as select * from rawgeo.national_highway where name is null
+
+insert into rawgeo.national_highway_other select * from rawgeo.national_highway_1 where name not like 'G%'
+
+
+//-------------------------------------other_road-------------------------------------------
+
+//因为数据量太大，所以想到分块去提取数据
+SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY gid ASC) AS rownum FROM rawgeo.other_road) AS foo
+WHERE rownum >0 and rownum  <=100000
+
+//------------------------------------------------------------------------------------------
+DROP FUNCTION IF EXISTS    CT_CutLinePiece(vid varchar, g4326 geometry, vkind varchar );
+CREATE OR REPLACE FUNCTION CT_CutLinePiece(vid varchar, g4326 geometry, vkind varchar ) RETURNS void AS $$
+    DECLARE
+        rec RECORD;
+        recc RECORD;
+        reccc RECORD;
+    BEGIN
+
+        FOR rec IN SELECT e_base_grid_1.id as gid,  ST_Multi(ST_Intersection(e_base_grid_1.the_geom, g4326)) as the_geom FROM e_base_grid_1 
+                         WHERE ST_Intersects(e_base_grid_1.the_geom, g4326) AND GeometryType(ST_Intersection(e_base_grid_1.the_geom, g4326)) IN('POLYGON','MULTILINESTRING')
+        LOOP
+            IF st_npoints(rec.the_geom) < 20 THEN
+                 INSERT INTO e_line_piece (line_id, grid_id, level, the_geom, kind) VALUES (vid, rec.gid, 1, rec.the_geom, vkind);
+            ELSE
+                 FOR recc IN SELECT e_base_grid_2.id as gid,  ST_Multi(ST_Intersection(e_base_grid_2.the_geom, rec.the_geom)) as the_geom FROM e_base_grid_2 
+                                    WHERE ST_Intersects(e_base_grid_2.the_geom, rec.the_geom) AND GeometryType(ST_Intersection(e_base_grid_2.the_geom, rec.the_geom)) IN('POLYGON','MULTILINESTRING')
+                 LOOP
+                    IF st_npoints(recc.the_geom) < 20 THEN
+                        INSERT INTO e_line_piece (line_id, grid_id, level, the_geom, kind) VALUES (vid, recc.gid, 2, recc.the_geom, vkind);
+                    ELSE
+                         FOR reccc IN SELECT e_base_grid_3.id as gid,  ST_Multi(ST_Intersection(e_base_grid_3.the_geom, recc.the_geom)) as the_geom FROM e_base_grid_3 
+                                            WHERE ST_Intersects(e_base_grid_3.the_geom, recc.the_geom) AND GeometryType(ST_Intersection(e_base_grid_3.the_geom, recc.the_geom)) IN('POLYGON','MULTILINESTRING')
+                         LOOP
+                             IF st_npoints(reccc.the_geom) < 20 THEN
+                                  INSERT INTO e_line_piece (line_id, grid_id, level, the_geom, kind) VALUES (vid, reccc.gid, 3, reccc.the_geom, vkind);
+                             ELSE
+                                  INSERT INTO e_line_piece (line_id, grid_id, level, the_geom, kind) SELECT vid, e_base_grid_4.id, 4, ST_Multi(ST_Intersection(e_base_grid_4.the_geom, reccc.the_geom)), vkind FROM e_base_grid_4 
+                                             WHERE ST_Intersects(e_base_grid_4.the_geom, reccc.the_geom) AND GeometryType(ST_Intersection(e_base_grid_4.the_geom, reccc.the_geom)) IN('POLYGON','MULTILINESTRING')  ;
+
+                             END IF;
+                         END LOOP;
+                     END IF;
+                 END LOOP;  
+             END IF;
+         END LOOP;    
+
+    END;
+$$ LANGUAGE plpgsql;

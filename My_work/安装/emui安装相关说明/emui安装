@@ -1,0 +1,149 @@
+
+安装java-se7,tomcat
+java和tomcat直接拷可执行代码
+
+设置java环境变量
+# set Java environment
+#当前jdk1.7.0_40的绝对路径
+JAVA_HOME=/usr/share/jdk1.7.0_40          
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME
+export PATH
+export CLASSPATH
+
+tomcat运行是直接执行bin目录的startup.sh和shutup.sh
+
+把em下面的
+ehcache.xml    em.war   em.properties  log4j.properties
+拷到tomcat下面的webapps目录下
+-----------------------------------------------
+
+上传运行 postgresql-9.4.1-3-linux-x64.run  
+安装postgresql时会让你创建一个密码，下面操作要输入这个密码 Password for user postgres
+其他选项默认
+运行 edb_postgis_2_1_pg94.bin 安装postgis
+-------------------------------
+
+登录到开发服务器上192.168.3.140导出数据
+/opt/PostgreSQL/9.4/bin/pg_dump -U postgres -s em2 --schema public > public.tab.dump
+/opt/PostgreSQL/9.4/bin/pg_dump -U postgres -a em2 --schema public > public.data.dump
+
+把两个文件 public.tab.dump public.data.dump 拷贝到要安装的服务器上
+执行
+/opt/PostgreSQL/9.4/bin/createdb -U postgres em2
+/opt/PostgreSQL/9.4/bin/psql -d em2 -U postgres
+ CREATE EXTENSION "uuid-ossp";      //这个如果报错，可以不用
+ CREATE EXTENSION pg_trgm;
+ CREATE EXTENSION fuzzystrmatch;
+ CREATE EXTENSION postgis;
+ CREATE EXTENSION postgis_topology;
+ CREATE EXTENSION postgis_tiger_geocoder;
+\q
+create extension plproxy;
+
+
+/opt/PostgreSQL/9.4/bin/psql -d em2 -U postgres -f public.tab.dump
+/opt/PostgreSQL/9.4/bin/psql -d em2 -U postgres -f public.data.dump
+----------------------------------
+/dn  查看所有schemas（模式）
+
+----------------------------------
+如果一个模式是空的（所有它里面的对象都已经删除），那么删除一个模式的命令
+
+DROP SCHEMA myschema;
+要删除一个包含所有对象的模式，使用
+
+DROP SCHEMA myschema CASCADE;
+----------------------------------
+修改tomcat目录下的webapps/em.properties
+jdbc_url=jdbc:postgresql://127.0.0.1:5432/em2      数据库在本地
+jdbc_username=postgres
+jdbc_password=刚刚创建的密码
+
+执行tomcat目录下的bin/startup.sh，可以网页访问服务器地址
+日志可见logs/catalina.out
+###################################################################
+#重启数据库
+service postgresql-9.4 restart
+###################################################################
+#查看是否有防火墙
+service iptables status
+#关闭防火墙
+1) 重启后生效
+开启： chkconfig iptables on
+关闭： chkconfig iptables off
+2) 即时生效，重启后失效
+开启： service iptables start
+关闭： service iptables stop
+
+#####################################################################
+#命令行配置ip
+sudo vim /etc/sysconfig/network-scripts/ifcfg-p2p1
+
+ps:
+在链接数据库的时候，如果报错，需要修改一下/opt/PostgreSQL/9.4/data/下的pg_hba.conf文件
+vim /opt/PostgreSQL/9.4/data/pg_hba.conf
+添加一行
+host    all             all             all                     md5
+
+################################################################
+#表数据导入
+/opt/PostgreSQL/9.4/bin/psql -d em2 -U postgres -f highway_g.sql 
+/opt/PostgreSQL/9.5/bin/psql -d em_master -U postgres -f test.sql
+/opt/PostgreSQL/9.5/bin/psql -d slave01 -U postgres -f 100.sql
+#表数据导出
+/opt/PostgreSQL/9.4/bin/pg_dump -U postgres -t rawgeo.highway_g em2 > /home/daizhaohui/Desktop/emui安装相关说明/em2/highway/highway_g.sql
+/opt/PostgreSQL/9.5/bin/pg_dump -U postgres -t mobile0.test em2 > /home/daizhaohui/Desktop/dzh/test.sql
+
+/opt/PostgreSQL/9.5/bin/pg_dump -U postgres -t public.e_base_grid em_master > /home/daizhaohui/Desktop/dzh/100.sql
+
+export LD_LIBRARY_PATH='/home/zhdai/Postgresql/lib'
+#118.102.25.143的root密码
+0p;/)P:?
+
+#新建用户（无新建用户，新建数据库的权限）
+createuser -D -A -P postgres
+#把em2数据库所有权赋予用户postgres
+createdb -O postgres em2
+
+#用数据库源码安装时候，需要注意的事项
+./configure --with-pgconfig=/opt/PostgreSQL/9.6/bin/pg_config
+
+- configure: libpq error!
+- echo '/opt/PostgreSQL/9.6/lib'>>/etc/ld.so.conf
+
+99710600
+#查询数据并且导出，存为csv格式的
+/opt/PostgreSQL/9.6/bin/psql -h 118.102.25.143 -p 5432 -d zbase -U zhdai -c "\copy (select * from pm25in.pm25in where time_point = '2016-05-15T00:00:00Z') to '/home/daizhaohui/Desktop/dzh/1.csv' with csv;"
+#导出数据
+\copy (select * from mobile0.testgeo limit 50000000 offset 0) to '/home/daizhaohui/Desktop/dzh/one.csv' with csv; -4m27.005s
+\copy (select * from mobile0.testgeo limit 49710600 offset 50000000) to '/home/daizhaohui/Desktop/dzh/two.csv' with csv;  --4m49.898s
+#导入数据
+/opt/PostgreSQL/9.5/bin/psql -d slave01 -U postgres -c "\copy mobile0.testgeo from '/home/daizhaohui/Desktop/dzh/data/one.csv' with csv;" --10min
+/opt/PostgreSQL/9.5/bin/psql -d slave02 -U postgres -c "\copy mobile0.testgeo from '/home/daizhaohui/Desktop/dzh/data/two.csv' with csv;" --9m4.062s
+
+psql -d slave01 -U postgres -c "\copy mobile0.testgeom from '/home/dzh/data/dataTwo/1.csv' with csv;"  --2m13.165s
+psql -d slave02 -U postgres -c "\copy mobile0.testgeom from '/home/dzh/data/dataTwo/2.csv' with csv;"  --2m13.614s
+psql -d slave03 -U postgres -c "\copy mobile0.testgeom from '/home/dzh/data/dataTwo/3.csv' with csv;"  --2m13.424s
+psql -d slave04 -U postgres -c "\copy mobile0.testgeom from '/home/dzh/data/dataTwo/4.csv' with csv;"  --2m12.277s
+psql -d slave03 -U postgres -c "\copy mobile0.testgeo from '/home/dzh/data/dataTwo/one.csv' with csv;"
+psql -d slave04 -U postgres -c "\copy mobile0.testgeo from '/home/dzh/data/dataTwo/two.csv' with csv;"
+
+#安装plproxy
+sudo yum install flex
+cd plproxy-2.6
+make PG_CONFIG=/opt/PostgreSQL/9.4/bin/pg_config
+sudo make install PG_CONFIG=/opt/PostgreSQL/9.4/bin/pg_config
+
+#更新yum源
+su -c 'yum localinstall --nogpgcheck http://download1.rpmfusion.org/free/el/updates/6/i386/rpmfusion-free-release-6-1.noarch.rpm http://download1.rpmfusion.org/nonfree/el/updates/6/i386/rpmfusion-nonfree-release-6-1.noarch.rpm'
+
+
+
+
+
+
+
+
+

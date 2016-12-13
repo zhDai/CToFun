@@ -1,0 +1,94 @@
+select CT_CutLinePiece(t1.line_id,t1.geom,t1.kind) from rawgeo.highway_g as t1
+select CT_CutSurfacePiece(t1.uuid,t1.geom,t1.kind) from rawgeo.sheng as t1
+select ct_insertlinewkt(t.line_id, st_astext(t.geom), 4326, t.name, t.user_id, t.kind) from rawgeo.highway_g as t //(需要添加一列user_id)
+//################################################################
+alter table rawgeo.highway_s add kind character varying(30);
+update rawgeo.highway_s set kind = 1;
+alter table rawgeo.highway_s add line_id character varying(48);
+update rawgeo.highway_s set line_id = uuid_generate_v1();
+alter table rawgeo.highway_s add user_id character varying;
+update rawgeo.highway_s set user_id = 'admin'
+//##################################################################
+//从本地把表数据导入的远程数据库中
+/opt/PostgreSQL/9.4/bin/psql -h 192.168.3.173 -d em2 -U postgres -f xian_road_simple.sql
+
+
+
+#在设置SRID
+update rawgeo.highway_1 set geom = ST_SetSRID(geom,4326)
+
+#建立e_line_piece表
+drop table if exists e_line_piece;
+create table e_line_piece ( 
+    line_id  varchar(48),
+    grid_id varchar(48),
+    level int,
+    kind varchar(48),
+    type varchar(5),  --k kernal  --i intersection --w wapper
+    the_geom geometry(MultiLineString,4326),
+    PRIMARY KEY(line_id,grid_id)
+);
+CREATE INDEX e_line_piece_the_geom_idx  ON e_line_piece  USING gist(the_geom);
+CREATE INDEX e_line_piece_level_idx  ON e_line_piece  USING btree(level);
+
+//增加属性列 并赋值
+alter table rawgeo.highway_g add kind character varying(30);
+update rawgeo.highway_g set kind = 1
+
+//时间
+explain analyze verbose select * from e_grid
+
+//------------------------------------------
+select * from e_surface_piece as t1,(select * from e_surface where kind = 'U')as t2 where t1.surface_id = t2.surface_id
+//把测试添加的数据放到了dzh表中
+create table dzh as select t1.* from e_surface_piece as t1,(select * from e_surface where kind = 'U')as t2 where t1.surface_id = t2.surface_id 
+//删除了测试的数据
+delete from e_surface_piece where e_surface_piece.surface_id in (select surface_id from dzh)
+
+//----测数性能
+//-----切分的高速公路与切分好的省相交情况，即e_line_piece和e_surface_piece
+explain analyze verbose SELECT t1.line_id, sum(ST_Length(Geography(ST_Intersection(t1.the_geom, e_surface_piece.the_geom)))) FROM e_line_piece as t1, e_surface_piece WHERE ST_Intersects(t1.the_geom, e_surface_piece.the_geom) GROUP BY t1.line_id
+
+//-----没有切分的高速公路与切分好的省相交情况，即rawgeo.highway_g和e_surface_piece
+explain analyze verbose SELECT t1.name, sum(ST_Length(Geography(ST_Intersection(t1.geom, e_surface_piece.the_geom)))) FROM rawgeo.highway_g as t1, e_surface_piece WHERE ST_Intersects(t1.geom, e_surface_piece.the_geom) GROUP BY t1.name
+
+//-----切分的高速公路与没有切分的省相交情况，即e_line_piece和rawgeo.sheng
+explain analyze verbose SELECT t1.line_id, sum(ST_Length(Geography(ST_Intersection(t1.the_geom, t2.geom)))) FROM e_line_piece as t1, rawgeo.sheng as t2 WHERE ST_Intersects(t1.the_geom, t2.geom) GROUP BY t1.line_id
+
+//-----没有切分的高速公路与没有切分的省相交情况，即rawgeo.highway_g和rawgeo.sheng
+explain analyze verbose SELECT t1.name, sum(ST_Length(Geography(ST_Intersection(t1.geom, t2.geom)))) FROM rawgeo.highway_g as t1, rawgeo.sheng as t2 WHERE ST_Intersects(t1.geom, t2.the_geom) GROUP BY t1.name
+
+//添加line_id
+update rawgeo.highway_g set line_id = uuid_generate_v1()
+
+//修改一列的值，使该列的每个值在原来的基础上都放大1000
+update public.e_web_wms set sensor_resolution = sensor_resolution*1000
+
+
+
+//---------------------------------------------------------------------------------------------------
+copy public.e_base_grid_1 to '/home/daizhaohui/Desktop/dzh/1.csv' with csv;
+copy public.e_base_grid_2 to '/home/daizhaohui/Desktop/dzh/2.csv' with csv;
+copy public.e_base_grid_3 to '/home/daizhaohui/Desktop/dzh/3.csv' with csv;
+copy public.e_base_grid_4 to '/home/daizhaohui/Desktop/dzh/4.csv' with csv;
+
+alter table public.e_base_grid_1 drop column the_geog;
+alter table public.e_base_grid_2 drop column the_geog;
+alter table public.e_base_grid_3 drop column the_geog;
+alter table public.e_base_grid_4 drop column the_geog;
+
+copy public.e_base_grid_1 from '/home/daizhaohui/Desktop/dzh/1.csv' with csv;
+copy public.e_base_grid_2 from '/home/daizhaohui/Desktop/dzh/2.csv' with csv;
+copy public.e_base_grid_3 from '/home/daizhaohui/Desktop/dzh/3.csv' with csv;
+copy public.e_base_grid_4 from '/home/daizhaohui/Desktop/dzh/4.csv' with csv;
+
+alter table public.e_base_grid_1 add column the_geog geography;
+alter table public.e_base_grid_2 add column the_geog geography;
+alter table public.e_base_grid_3 add column the_geog geography;
+alter table public.e_base_grid_4 add column the_geog geography;
+
+update public.e_base_grid_1 set the_geog = Geography(the_geom);
+update public.e_base_grid_1 set the_geog = Geography(the_geom);
+update public.e_base_grid_1 set the_geog = Geography(the_geom);
+update public.e_base_grid_1 set the_geog = Geography(the_geom);
+

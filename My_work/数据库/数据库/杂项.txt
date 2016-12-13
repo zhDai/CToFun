@@ -1,0 +1,238 @@
+
+
+
+
+--排放清单数据
+drop table if exists e_point_emit ;
+create table e_point_emit ( 
+    id  varchar(48) ,
+    name varchar(50),
+    point_id  varchar[] ,
+    point_name  varchar[] ,
+    type  varchar(50),
+    create_time varchar(20),
+    height DOUBLE PRECISION[],
+	day  DOUBLE PRECISION[],
+    year DOUBLE PRECISION[],
+    emit DOUBLE PRECISION[],
+    user_id	varchar(48),
+    time_start bigint,
+    time_end bigint,
+    PRIMARY KEY(id)
+);
+
+
+drop table if exists e_point_emit_point ;
+create table e_point_emit_point ( 
+    point_id  varchar(48) ,
+    point_emit_id varchar(48),
+    PRIMARY KEY(point_emit_id,point_id)
+);
+
+
+
+
+
+--排放清单数据
+drop table if exists e_line_emit ;
+create table e_line_emit ( 
+    id  varchar(48) ,
+    name varchar(50),
+    line_id  varchar[] ,
+    line_name  varchar[] ,
+    type  varchar(50),
+    create_time varchar(20),
+    height DOUBLE PRECISION[],
+	day  DOUBLE PRECISION[],
+    year DOUBLE PRECISION[],
+    emit DOUBLE PRECISION[],
+    user_id	varchar(48),
+    time_start bigint,
+    time_end bigint,
+    PRIMARY KEY(id)
+);
+
+
+
+drop table if exists e_line_emit_line ;
+create table e_line_emit_line ( 
+    line_id  varchar(48) ,
+    line_emit_id varchar(48),
+    PRIMARY KEY(line_emit_id,line_id)
+);
+
+
+
+
+--排放清单数据
+drop table if exists e_surface_emit ;
+create table e_surface_emit ( 
+    id  varchar(48) ,
+    name varchar(50),
+    surface_id  varchar[] ,
+    surface_name  varchar[] ,
+    type  varchar(50),
+    create_time varchar(20),
+    height DOUBLE PRECISION[],
+	day  DOUBLE PRECISION[],
+    year DOUBLE PRECISION[],
+    emit DOUBLE PRECISION[],
+    user_id	varchar(48),
+    time_start bigint,
+    time_end bigint,
+    PRIMARY KEY(id)
+);
+
+
+
+
+drop table if exists e_surface_emit_surface ;
+create table e_surface_emit_surface ( 
+    surface_id  varchar(48) ,
+    surface_emit_id varchar(48),
+    PRIMARY KEY(surface_emit_id,surface_id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+drop table if exists e_emit ;--group
+create table e_emit ( 
+    id  varchar(48) ,
+    name varchar(50),
+    point_emit_id  varchar[] ,
+    point_emit_name  varchar[] ,
+    point_emit_percent   DOUBLE PRECISION[] ,
+
+    line_emit_id  varchar[] ,
+    line_emit_name  varchar[] ,
+    line_emit_percent   DOUBLE PRECISION[] ,
+
+    surface_emit_id  varchar[] ,
+    surface_emit_name  varchar[] ,
+    surface_emit_percent   DOUBLE PRECISION[] ,
+    type  varchar(50),
+    create_time varchar(20),
+
+    time_start bigint,
+    time_end bigint,
+    user_id varchar(48) ,
+    PRIMARY KEY(id)
+);
+
+
+
+
+drop table if exists e_pic ;  --movie
+create table e_pic  ( 
+    id  varchar(48) ,
+    name varchar(50),
+
+    species varchar(50),
+    height DOUBLE PRECISION,
+    max_val  DOUBLE PRECISION,
+    min_val  DOUBLE PRECISION,
+    step_val INTEGER,
+    colour varchar(20),
+
+
+    task_id  varchar[] ,
+    task_name  varchar[] ,
+    time varchar(10),
+    user_id varchar(48) ,
+    time_end integer,
+    time_start integer,
+    create_time varchar(20),
+    PRIMARY KEY(id)
+);
+
+
+
+
+drop table if exists e_pic_track ;  --movie
+create table e_pic_track  ( 
+    id  varchar(48) ,
+    name varchar(50),
+
+    species varchar(50),
+    height DOUBLE PRECISION,
+    max_val  DOUBLE PRECISION,
+    min_val  DOUBLE PRECISION,
+    step_val INTEGER,
+    colour varchar(20),
+    track varchar(20), --定源追踪，定时追踪，分布追踪
+
+
+    task_id  varchar,
+    task_name  varchar ,
+    time varchar(10),
+    user_id varchar(48) ,
+    time_end integer,
+    time_start integer,
+    create_time varchar(20),
+    PRIMARY KEY(id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+drop table if exists e_task ;
+create table e_task ( 
+    id  varchar(48) ,
+    name varchar(50),
+    user_id  varchar(48) ,
+    emit_id  varchar(48) ,
+    emit_name  varchar(50),
+    pul_model  varchar[],
+    met_model  varchar[],
+--    start_timesecond bigint,
+--    end_timesecond bigint,
+    time_start bigint,
+    time_end bigint,
+    run_stat varchar(20),
+    create_time varchar(20),
+    ncfilename varchar[],
+    PRIMARY KEY(id)
+);
+
+
+
+
+
+drop table if exists e_nc_emit ;
+create table e_nc_emit ( 
+    id  varchar(48) ,
+    name varchar(50),
+    user_id  varchar(48) ,
+    emit_id  varchar(48) ,
+    emit_name  varchar(50),
+    time_start bigint,
+    time_end bigint,
+    create_time varchar(20),
+    ncfilename varchar[],
+    PRIMARY KEY(id)
+);
+
+
+
+
+

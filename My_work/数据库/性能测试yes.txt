@@ -1,0 +1,68 @@
+测试加了geography以后的结果
+##################################################################
+
+explain analyze verbose
+SELECT sum(ST_Area(Geography(ST_Intersection(Geography(ST_GeomFromText('POLYGON ((105.35562991186437 39.67160658935129, 125.97935529179308 37.31776204398755, 120.82076579769695 28.140956742310397, 106.36414305924029 28.13155481031267, 105.35562991186437 39.67160658935129))',4326)), Geography(e_surface_piece.the_geom))))) 
+FROM  e_surface_piece  
+WHERE ST_Intersects(Geography(ST_GeomFromText('POLYGON ((105.35562991186437 39.67160658935129, 125.97935529179308 37.31776204398755, 120.82076579769695 28.140956742310397, 106.36414305924029 28.13155481031267, 105.35562991186437 39.67160658935129))',4326)), Geography(e_surface_piece.the_geom))
+
+"Aggregate  (cost=47033.14..47033.15 rows=1 width=612) (actual time=46595.348..46595.349 rows=1 loops=1)"
+"  Output: sum(st_area(geography(st_transform(st_intersection(st_transform('0103000020E61000000100000005000000F53BF6A3C2565A405D856834F7D543409D5AD1C1AD7E5F40176B396DACA8424029B2446D87345E40B55FB6BD15243C4028A0B01E4E975A40A6EC7793AD213C40F53BF6A3C2565A405D8 (...)"
+"  ->  Seq Scan on public.e_surface_piece  (cost=0.00..42578.93 rows=8444 width=612) (actual time=0.175..19280.076 rows=35166 loops=1)"
+"        Output: surface_id, grid_id, level, kind, the_geom"
+"        Filter: (('0103000020E61000000100000005000000F53BF6A3C2565A405D856834F7D543409D5AD1C1AD7E5F40176B396DACA8424029B2446D87345E40B55FB6BD15243C4028A0B01E4E975A40A6EC7793AD213C40F53BF6A3C2565A405D856834F7D54340'::geography && geography(e_surface_piece.t (...)"
+"        Rows Removed by Filter: 91493"
+"Planning time: 180.128 ms"
+"Execution time: 46595.391 ms"
+Total query runtime: 46799 ms.
+
+##############################################################################################################################################################
+explain analyze verbose
+SELECT sum(ST_Area(Geography(ST_Intersection(Geography(ST_GeomFromText('POLYGON ((101.66424551197218 30.860562152259188, 115.18742963472556 34.035041156566564, 114.28158999595205 23.768049192796536, 105.49157349207594 24.106548736510582, 101.66424551197218 30.860562152259188))',4326)),Geography(e_surface_piece.the_geom))))) 
+FROM  e_surface_piece  
+WHERE ST_Intersects(Geography(ST_GeomFromText('POLYGON ((101.66424551197218 30.860562152259188, 115.18742963472556 34.035041156566564, 114.28158999595205 23.768049192796536, 105.49157349207594 24.106548736510582, 101.66424551197218 30.860562152259188))',4326)), Geography(e_surface_piece.the_geom))
+
+"Aggregate  (cost=47033.14..47033.15 rows=1 width=612) (actual time=18456.069..18456.069 rows=1 loops=1)"
+"  Output: sum(st_area(geography(st_transform(st_intersection(st_transform('0103000020E61000000100000005000000DC9B9BFF826A5940EB201CCD4DDC3E40A4DCDDD8FECB5C40D4BB863A7C044140ABDF0B9205925C40C3C734DF9EC43740FD02AAF0755F5A403ABE2AC7461B3840DC9B9BFF826A5940EB2 (...)"
+"  ->  Seq Scan on public.e_surface_piece  (cost=0.00..42578.93 rows=8444 width=612) (actual time=0.865..6547.928 rows=21086 loops=1)"
+"        Output: surface_id, grid_id, level, kind, the_geom"
+"        Filter: (('0103000020E61000000100000005000000DC9B9BFF826A5940EB201CCD4DDC3E40A4DCDDD8FECB5C40D4BB863A7C044140ABDF0B9205925C40C3C734DF9EC43740FD02AAF0755F5A403ABE2AC7461B3840DC9B9BFF826A5940EB201CCD4DDC3E40'::geography && geography(e_surface_piece.t (...)"
+"        Rows Removed by Filter: 105573"
+"Planning time: 0.549 ms"
+"Execution time: 18456.135 ms"
+Total query runtime: 18464 ms.
+
+
+#################################################################################################################################################################
+explain analyze verbose
+SELECT sum(ST_Area(Geography(ST_Intersection(Geography(ST_GeomFromText('POLYGON ((113.92365564545835 36.52225820295649, 119.62496932195617 32.74160738999795, 114.67610603959932 31.432661226661647, 113.92365564545835 36.52225820295649))',4326)), Geography(e_surface_piece.the_geom))))) 
+FROM  e_surface_piece  
+WHERE ST_Intersects(Geography(ST_GeomFromText('POLYGON ((113.92365564545835 36.52225820295649, 119.62496932195617 32.74160738999795, 114.67610603959932 31.432661226661647, 113.92365564545835 36.52225820295649))',4326)), Geography(e_surface_piece.the_geom))
+
+"Aggregate  (cost=47033.14..47033.15 rows=1 width=612) (actual time=5862.861..5862.861 rows=1 loops=1)"
+"  Output: sum(st_area(geography(st_transform(st_intersection(st_transform('0103000020E610000001000000040000009A80912C1D7B5C4008E2565BD942424086B3537FFFE75D40AE41AFFDEC5E4040422D445245AB5C404FC2DAE2C26E3F409A80912C1D7B5C4008E2565BD9424240'::geometry, _st_be (...)"
+"  ->  Seq Scan on public.e_surface_piece  (cost=0.00..42578.93 rows=8444 width=612) (actual time=104.282..3602.544 rows=3456 loops=1)"
+"        Output: surface_id, grid_id, level, kind, the_geom"
+"        Filter: (('0103000020E610000001000000040000009A80912C1D7B5C4008E2565BD942424086B3537FFFE75D40AE41AFFDEC5E4040422D445245AB5C404FC2DAE2C26E3F409A80912C1D7B5C4008E2565BD9424240'::geography && geography(e_surface_piece.the_geom)) AND (_st_distance('010 (...)"
+"        Rows Removed by Filter: 123203"
+"Planning time: 247.203 ms"
+"Execution time: 5862.910 ms"
+Total query runtime: 6132 ms.
+
+#################################################################################################################################################################
+explain analyze verbose
+SELECT sum(ST_Area(Geography(ST_Intersection(Geography(ST_GeomFromText('POLYGON ((113.43789071136194 36.23481250182138, 107.82092768626585 33.687426800772656, 115.3520805636404 31.343570786927405, 113.43789071136194 36.23481250182138))',4326)), Geography(e_surface_piece.the_geom))))) 
+FROM  e_surface_piece  
+WHERE ST_Intersects(Geography(ST_GeomFromText('POLYGON ((113.43789071136194 36.23481250182138, 107.82092768626585 33.687426800772656, 115.3520805636404 31.343570786927405, 113.43789071136194 36.23481250182138))',4326)), Geography(e_surface_piece.the_geom))
+
+"Aggregate  (cost=47033.14..47033.15 rows=1 width=612) (actual time=5709.245..5709.246 rows=1 loops=1)"
+"  Output: sum(st_area(geography(st_transform(st_intersection(st_transform('0103000020E610000001000000040000006421C366065C5C40E40108560E1E4240233947148AF45A4032DBF599FDD740402399EA7C88D65C40D5B64D41F4573F406421C366065C5C40E40108560E1E4240'::geometry, _st_be (...)"
+"  ->  Seq Scan on public.e_surface_piece  (cost=0.00..42578.93 rows=8444 width=612) (actual time=0.252..3643.669 rows=3750 loops=1)"
+"        Output: surface_id, grid_id, level, kind, the_geom"
+"        Filter: (('0103000020E610000001000000040000006421C366065C5C40E40108560E1E4240233947148AF45A4032DBF599FDD740402399EA7C88D65C40D5B64D41F4573F406421C366065C5C40E40108560E1E4240'::geography && geography(e_surface_piece.the_geom)) AND (_st_distance('010 (...)"
+"        Rows Removed by Filter: 122909"
+"Planning time: 0.214 ms"
+"Execution time: 5709.282 ms"
+Total query runtime: 5716 ms.
+
+

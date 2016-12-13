@@ -1,0 +1,26 @@
+#rawgeo.highway_g(此表格是国道高速公路，已经经过整理的)
+#rawgeo.sheng(此表格是全国省的信息)
+#e_line_piece(把线切分)
+#e_surface_piece(把省切分)
+
+#-eg1-#
+切分的高速公路与切分好的省相交情况，即e_line_piece和e_surface_piece
+结果：
+"Execution time: 58115.168 ms"
+
+#-eg2-#
+没有切分的高速公路与切分好的省相交情况，即rawgeo.highway_g和e_surface_piece
+结果：
+"Execution time: 585041.385 ms"
+
+#-eg3-#
+切分的高速公路与没有切分的省相交情况，即e_line_piece和rawgeo.sheng
+结果：
+"Execution time: 8665706.556 ms"
+
+#-eg4-#
+没有切分的高速公路与没有切分的省相交情况，即rawgeo.highway_g和rawgeo.sheng
+结果：
+---（时间关系目前为止还没跑出结果，估计更加慢）
+
+

@@ -1,0 +1,16 @@
+#建立e_line_piece表
+drop table if exists e_line_piece;
+create table e_line_piece ( 
+    line_id  varchar(48),
+    grid_id varchar(48),
+    level int,
+    kind varchar(48),
+    type varchar(5),  --k kernal  --i intersection --w wapper
+    the_geom geometry(MultiLineString,4326),
+    PRIMARY KEY(line_id,grid_id)
+);
+CREATE INDEX e_line_piece_the_geom_idx  ON e_line_piece  USING gist(the_geom);
+CREATE INDEX e_line_piece_level_idx  ON e_line_piece  USING btree(level);
+
+
+

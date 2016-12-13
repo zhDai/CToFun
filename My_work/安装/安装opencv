@@ -1,0 +1,47 @@
+yum install cmake gcc gcc-c++ gtk+-devel gimp-devel gimp-devel-tools gimp-help-browser zlib-devel libtiff-devel libjpeg-devel libpng-devel gstreamer-devel libavc1394-devel libraw1394-devel libdc1394-devel jasper-devel jasper-utils swig python libtool nasm
+
+2.生成make文件并安装
+
+  cd opencv 2.3.1
+
+  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_NEW_PYTHON_SUPPORT=NO .
+  //这里可能提示line44错误. 进去Cmakelist.txt, 把第44行注释掉
+
+  make
+
+  sudo make install
+
+3.配置
+
+  新建文件 /etc/ld.so.conf.d/opencv.conf
+
+  在文件中添加  /usr/local/lib
+
+   保存之后执行配置
+
+   sudo ldconfig
+
+4.环境变量配置
+
+   sudo vim /etc/bashrc
+
+   PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+   export PKG_CONFIG_PATH
+
+   保存之后执行
+
+    source /etc/bashrc
+
+5.测试安装是否成功
+
+   cd   OpenCV-2.3.1/samples/c
+   chmod +x build_all.sh
+   ./build_all.sh
+
+   编译结束之后执行
+
+  ./facedetect cascade="/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml" --scale=1.5 lena.jpg
+
+   如果安装成功的话，lena脸上会有一个蓝色的圈
+
+

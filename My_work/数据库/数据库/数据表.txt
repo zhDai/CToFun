@@ -1,0 +1,1778 @@
+
+
+--污染监测站原始数据
+drop table if exists e_obs_raw_pollution_h;
+create table e_obs_raw_pollution_h ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    user_id	varchar(48),    
+    PRIMARY KEY(id)
+);
+
+--污染监测站原始数据
+drop table if exists e_obs_raw_pollution_d;
+create table e_obs_raw_pollution_d ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+--污染监测站原始数据
+drop table if exists e_obs_raw_pollution_m;
+create table e_obs_raw_pollution_m ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+--公路监测插值数据
+drop table if exists e_obs_line_data;
+create table e_obs_line_data ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+
+--公路监测插值数据
+drop table if exists e_obs_line_data_h;
+create table e_obs_line_data_h ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--公路监测插值数据
+drop table if exists e_obs_line_data_d;
+create table e_obs_line_data_d ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--公路监测插值数据
+drop table if exists e_obs_line_data_m;
+create table e_obs_line_data_m ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--点观察插值数据
+drop table if exists  e_obs_point_data;
+create table e_obs_point_data ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+--点观察插值数据
+drop table if exists  e_obs_point_data_h;
+create table e_obs_point_data_h ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--点观察插值数据
+drop table if exists  e_obs_point_data_d;
+create table e_obs_point_data_d ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--点观察插值数据
+drop table if exists  e_obs_point_data_m;
+create table e_obs_point_data_m ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--气球观测原始数据 
+drop table if exists e_obs_raw_balloon ;
+create table e_obs_raw_balloon ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+
+);
+
+
+
+--气球观测原始数据 
+drop table if exists e_obs_raw_balloon_h ;
+create table e_obs_raw_balloon_h ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+
+);
+
+
+
+
+--气球观测原始数据 
+drop table if exists e_obs_raw_balloon_d ;
+create table e_obs_raw_balloon_d ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+
+);
+
+
+
+
+--气球观测原始数据 
+drop table if exists e_obs_raw_balloon_m ;
+create table e_obs_raw_balloon_m ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+
+);
+
+
+
+
+--气象站原始数据
+drop table if exists  e_obs_raw_station;
+create table e_obs_raw_station ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+
+--气象站原始数据
+drop table if exists  e_obs_raw_station_h;
+create table e_obs_raw_station_h ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--气象站原始数据
+drop table if exists  e_obs_raw_station_d;
+create table e_obs_raw_station_d ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--气象站原始数据
+drop table if exists  e_obs_raw_station_m;
+create table e_obs_raw_station_m ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--地区监测插值数据
+drop table if exists  e_obs_surface_data ;
+create table e_obs_surface_data ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+
+--地区监测插值数据
+drop table if exists  e_obs_surface_data_h ;
+create table e_obs_surface_data_h ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50), 
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--地区监测插值数据
+drop table if exists  e_obs_surface_data_d ;
+create table e_obs_surface_data_d ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--地区监测插值数据
+drop table if exists  e_obs_surface_data_m ;
+create table e_obs_surface_data_m ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    t  DOUBLE PRECISION,
+    po DOUBLE PRECISION,
+    p  DOUBLE PRECISION,
+    pa DOUBLE PRECISION,
+    u DOUBLE PRECISION,
+    dd_x DOUBLE PRECISION,
+    dd_y DOUBLE PRECISION,
+    dd DOUBLE PRECISION,
+    ff DOUBLE PRECISION,
+    ff10 DOUBLE PRECISION,
+    ff3 DOUBLE PRECISION,
+    n_ DOUBLE PRECISION, 
+    n varchar(50),
+    ww varchar(50),
+    w1 varchar(50),
+    w2 varchar(50),
+    tn DOUBLE PRECISION,
+    tx DOUBLE PRECISION,
+    c1 DOUBLE PRECISION,
+    nh_ DOUBLE PRECISION, 
+    nh varchar(50),
+    h DOUBLE PRECISION, 
+    cm DOUBLE PRECISION, 
+    ch DOUBLE PRECISION,
+    vv DOUBLE PRECISION,
+    td DOUBLE PRECISION,
+    rrr DOUBLE PRECISION,
+    tr DOUBLE PRECISION,
+    e DOUBLE PRECISION,
+    tg DOUBLE PRECISION,
+    sss DOUBLE PRECISION,
+    w_w DOUBLE PRECISION,
+    c DOUBLE PRECISION,
+    pres DOUBLE PRECISION,  
+    hght DOUBLE PRECISION,   
+    temp DOUBLE PRECISION,    
+    dwpt DOUBLE PRECISION,   
+    relh DOUBLE PRECISION,
+    mixr DOUBLE PRECISION, 
+    drct DOUBLE PRECISION,
+    sknt DOUBLE PRECISION,
+    thta DOUBLE PRECISION, 
+    thte DOUBLE PRECISION, 
+    thtv DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--公路模拟污染数据
+drop table if exists e_sim_line_data_pul;
+create table e_sim_line_data_pul ( 
+    id  varchar(48) ,
+    line_id  varchar(48),
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	
+   
+    PRIMARY KEY(id)
+);
+
+
+
+
+--公路模拟污染数据
+drop table if exists e_sim_line_data_pul_h;
+create table e_sim_line_data_pul_h ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	
+   
+    PRIMARY KEY(id)
+);
+
+
+
+--公路模拟污染数据
+drop table if exists e_sim_line_data_pul_d;
+create table e_sim_line_data_pul_d ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	
+   
+    PRIMARY KEY(id)
+);
+
+
+
+--公路模拟污染数据
+drop table if exists e_sim_line_data_pul_m;
+create table e_sim_line_data_pul_m ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	
+   
+    PRIMARY KEY(id)
+);
+
+
+
+--公路模拟气象数据
+drop table if exists e_sim_line_data_met ;
+create table e_sim_line_data_met ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+--公路模拟气象数据
+drop table if exists e_sim_line_data_met_h ;
+create table e_sim_line_data_met_h ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+
+--公路模拟气象数据
+drop table if exists e_sim_line_data_met_d ;
+create table e_sim_line_data_met_d ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+
+--公路模拟气象数据
+drop table if exists e_sim_line_data_met_m ;
+create table e_sim_line_data_met_m ( 
+    id  varchar(48) ,
+    line_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+
+--点模拟污染数据
+drop table if exists e_sim_point_data_pul;
+create table e_sim_point_data_pul ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+--点模拟污染数据
+drop table if exists e_sim_point_data_pul_h;
+create table e_sim_point_data_pul_h ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--点模拟污染数据
+drop table if exists e_sim_point_data_pul_d;
+create table e_sim_point_data_pul_d ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--点模拟污染数据
+drop table if exists e_sim_point_data_pul_m;
+create table e_sim_point_data_pul_m ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+--点模拟气象数据
+drop table if exists e_sim_point_data_met;
+create table e_sim_point_data_met ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+--点模拟气象数据
+drop table if exists e_sim_point_data_met_h;
+create table e_sim_point_data_met_h ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+--点模拟气象数据
+drop table if exists e_sim_point_data_met_d;
+create table e_sim_point_data_met_d ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+--点模拟气象数据
+drop table if exists e_sim_point_data_met_m;
+create table e_sim_point_data_met_m ( 
+    id  varchar(48) ,
+    point_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),  
+    PRIMARY KEY(id)
+);
+
+
+
+--面模拟污染数据
+drop table if exists e_sim_surface_data_pul;
+create table e_sim_surface_data_pul ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	   
+    PRIMARY KEY(id)
+);
+
+
+
+--面模拟污染数据
+drop table if exists e_sim_surface_data_pul_h;
+create table e_sim_surface_data_pul_h ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	   
+    PRIMARY KEY(id)
+);
+
+
+
+--面模拟污染数据
+drop table if exists e_sim_surface_data_pul_d;
+create table e_sim_surface_data_pul_d ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	   
+    PRIMARY KEY(id)
+);
+
+
+
+--面模拟污染数据
+drop table if exists e_sim_surface_data_pul_m;
+create table e_sim_surface_data_pul_m ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+
+    so2 DOUBLE PRECISION,
+    no2 DOUBLE PRECISION,
+    co DOUBLE PRECISION,
+    o3 DOUBLE PRECISION,
+    pm25 DOUBLE PRECISION,
+    pm10 DOUBLE PRECISION,
+    
+    iso4 DOUBLE PRECISION,
+    ino3 DOUBLE PRECISION,
+    oc DOUBLE PRECISION,
+    bc DOUBLE PRECISION,
+    dust DOUBLE PRECISION,
+    seasult DOUBLE PRECISION,
+    user_id	varchar(48),	   
+    PRIMARY KEY(id)
+);
+
+
+
+--面模拟气象数据
+drop table if exists e_sim_surface_data_met ;
+create table e_sim_surface_data_met ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+--面模拟气象数据
+drop table if exists e_sim_surface_data_met_h ;
+create table e_sim_surface_data_met_h ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),   
+    PRIMARY KEY(id)
+);
+
+
+
+
+--面模拟气象数据
+drop table if exists e_sim_surface_data_met_d ;
+create table e_sim_surface_data_met_d ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+	
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+
+--面模拟气象数据
+drop table if exists e_sim_surface_data_met_m ;
+create table e_sim_surface_data_met_m ( 
+    id  varchar(48) ,
+    surface_id  varchar(48) ,
+    task_id varchar(48),
+    type  varchar(50),
+    timesecond bigint,
+    height DOUBLE PRECISION,
+    temperature DOUBLE PRECISION,
+    humidity DOUBLE PRECISION,
+    pressure DOUBLE PRECISION,
+    winddir  DOUBLE PRECISION,
+    windspeed DOUBLE PRECISION,
+    rain DOUBLE PRECISION,
+    cloud DOUBLE PRECISION,
+    user_id	varchar(48),
+    PRIMARY KEY(id)
+);
+
+
+
+
+

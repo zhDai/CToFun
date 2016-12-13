@@ -1,0 +1,9 @@
+CREATE INDEX e_base_grid_1_geography_the_geom_idx  ON e_base_grid_1  USING gist(geography(the_geom));
+CREATE INDEX e_base_grid_2_geography_the_geom_idx  ON e_base_grid_2  USING gist(geography(the_geom));
+CREATE INDEX e_base_grid_3_geography_the_geom_idx  ON e_base_grid_3  USING gist(geography(the_geom));
+CREATE INDEX e_base_grid_4_geography_the_geom_idx  ON e_base_grid_4  USING gist(geography(the_geom));
+CREATE INDEX e_surface_piece_geography_the_geom_idx  ON e_surface_piece  USING gist(geography(the_geom));
+CREATE INDEX e_line_piece_geography_the_geom_idx  ON e_line_piece  USING gist(geography(the_geom));
+CREATE INDEX e_surface_geography_the_geom_idx  ON e_surface  USING gist(geography(the_geom));
+CREATE INDEX e_line_geography_the_geom_idx  ON e_line  USING gist(geography(the_geom));
+CREATE INDEX e_grid_geography_the_geom_idx  ON e_grid  USING gist(geography(the_geom));

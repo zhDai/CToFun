@@ -1,0 +1,277 @@
+
+drop table if exists e_base_grid_1;
+create table e_base_grid_1 ( 
+    id  varchar(48),
+    --level int,
+    sort int,
+    the_geom geometry(Polygon,4326),
+    PRIMARY KEY(id)
+);
+CREATE INDEX e_base_grid_1_the_geom_idx  ON e_base_grid_1  USING gist(the_geom);
+
+
+
+
+
+
+drop table if exists e_base_grid_2;
+create table e_base_grid_2 ( 
+    id  varchar(48),
+    --level int,
+    sort int,
+    the_geom geometry(Polygon,4326),
+    PRIMARY KEY(id)
+);
+CREATE INDEX e_base_grid_2_the_geom_idx  ON e_base_grid_2  USING gist(the_geom);
+
+
+
+
+
+drop table if exists e_base_grid_3;
+create table e_base_grid_3 ( 
+    id  varchar(48),
+    --level int,
+    sort int,
+    the_geom geometry(Polygon,4326),
+    PRIMARY KEY(id)
+);
+CREATE INDEX e_base_grid_3_the_geom_idx  ON e_base_grid_3  USING gist(the_geom);
+
+
+
+drop table if exists e_base_grid_4;
+create table e_base_grid_4 ( 
+    id  varchar(48),
+    --level int,
+    sort int,
+    the_geom geometry(Polygon,4326),
+    PRIMARY KEY(id)
+);
+CREATE INDEX e_base_grid_4_the_geom_idx  ON e_base_grid_4  USING gist(the_geom);
+
+
+
+
+
+
+drop table if exists e_surface_piece;
+create table e_surface_piece ( 
+    surface_id  varchar(48),
+    grid_id varchar(48),
+    level int,
+    kind varchar(10),
+    type varchar(5),  --k kernal  --i intersection --w wapper
+    the_geom geometry(MultiPolygon,4326),
+    PRIMARY KEY(surface_id,grid_id)
+);
+CREATE INDEX e_surface_piece_the_geom_idx  ON e_surface_piece  USING gist(the_geom);
+CREATE INDEX e_surface_piece_level_idx  ON e_surface_piece  USING btree(level);
+
+
+
+
+
+
+
+
+
+drop table if exists e_point;
+create table e_point ( 
+    point_id  	varchar(48),
+    name	varchar(50),
+    kind   varchar(10) ,  -- U:用户
+    user_id	varchar(48),
+    weight_x DOUBLE PRECISION,
+    weight_y DOUBLE PRECISION,
+    sort int,
+    descr varchar(50),
+    space varchar(512),
+    create_time varchar(20),
+    tag  bit varying,
+    value double precision[],
+    --group_id varchar[],
+    the_geom geometry(Point,4326),
+    PRIMARY KEY(point_id)
+);
+
+drop table if exists e_line;
+create table e_line ( 
+    line_id  	varchar(48),
+    name	varchar(50),
+    kind   varchar(10) , -- U:用户
+    user_id	varchar(48),
+    weight_x DOUBLE PRECISION,
+    weight_y DOUBLE PRECISION,
+    descr varchar(50),
+    sort int,
+    length DOUBLE PRECISION,
+    space varchar(512),
+    create_time varchar(20),
+    tag  bit varying,
+    value double precision[],
+    --group_id varchar[],
+    simple_geom geometry(MultiLineString,4326),
+    the_geom geometry(MultiLineString,4326),
+    centriod geometry(Point,4326),
+    PRIMARY KEY(line_id)
+);
+
+drop table if exists e_surface ;
+create table e_surface ( 
+    surface_id  varchar(48),
+    name varchar(50),
+    user_id varchar(48),
+    parent_surface_id varchar(48) default '0',
+    kind varchar(10),   --0:国  1：省  2：市  3：县  4：乡  5：村   U:用户定义
+    weight_x DOUBLE PRECISION,
+    weight_y DOUBLE PRECISION,
+    descr varchar(50),
+    sort int,
+    area DOUBLE PRECISION,
+    space varchar,
+    create_time varchar(20),
+    tag  bit varying,
+    value double precision[],
+    --group_id varchar[],
+    simple_geom geometry(MultiPolygon,4326),
+    the_geom geometry(MultiPolygon,4326),
+    centriod geometry(Point,4326),
+    PRIMARY KEY(surface_id)
+);
+
+
+drop table if exists e_grid;
+create table e_grid(
+    grid_id  varchar(48),
+    name varchar(50),
+    kind varchar(10),
+    sort int,
+--    user_id varchar(48),
+    area DOUBLE PRECISION,
+    value double precision[],
+    the_geom geometry(Polygon,4326),
+    centriod geometry(Point,4326),
+    PRIMARY KEY(grid_id)
+);
+
+drop table if exists e_point_surface;
+create table e_point_surface ( 
+    point_id  	varchar(48) ,
+    surface_id  varchar(48) ,
+    point_kind  varchar(10) ,
+    surface_kind varchar(10) ,
+    PRIMARY KEY(point_id,surface_id)
+);
+
+drop table if exists e_point_grid;
+create table e_point_grid ( 
+    point_id  	varchar(48) ,
+    grid_id  varchar(48) ,
+    point_kind varchar(10),
+    grid_kind varchar(10),
+    PRIMARY KEY(point_id,grid_id)
+);
+
+drop table if exists e_line_surface;
+create table e_line_surface ( 
+    line_id  	varchar(48) ,
+    surface_id  varchar(48) ,
+    line_kind varchar(10),
+    surface_kind varchar(10),
+    length DOUBLE PRECISION,
+    cross_sort int,
+    PRIMARY KEY(line_id,surface_id)
+);
+
+drop table if exists e_line_grid ;
+create table e_line_grid ( 
+    line_id  	varchar(48) ,
+    grid_id  varchar(48) ,
+    line_kind varchar(10),
+    grid_kind varchar(10),
+    length DOUBLE PRECISION,
+    cross_sort int,
+    PRIMARY KEY(line_id,grid_id)
+);
+
+drop table if exists e_surface_surface ;
+create table e_surface_surface ( 
+    surface_id1  varchar(48) ,  --user surface
+    surface_id2  varchar(48) ,  --行政 surface
+    surface_kind1  varchar(10) ,  --user surface
+    surface_kind2  varchar(10) ,  --行政 surface
+    area DOUBLE PRECISION,
+    PRIMARY KEY(surface_id1,surface_id2)
+);
+
+drop table if exists e_grid_surface ;
+create table e_grid_surface ( 
+    grid_id  varchar(48) ,
+    surface_id  varchar(48) ,
+    grid_kind  varchar(10) ,
+    surface_kind  varchar(10) ,
+    area DOUBLE PRECISION,
+    PRIMARY KEY(grid_id,surface_id)
+);
+
+
+drop table if exists e_point_group;
+create table e_point_group ( 
+    point_group_id  	varchar(48) ,
+    name	varchar(50),
+    user_id	varchar(48),
+    space varchar(512),
+    create_time varchar(20),
+    point_id varchar[],
+    PRIMARY KEY(point_group_id)
+);
+
+drop table if exists e_point_point_group;
+create table e_point_point_group ( 
+    point_group_id  varchar(48) ,
+    point_id  varchar(48) ,
+    point_kind varchar(10),
+    PRIMARY KEY(point_id, point_group_id)
+);
+
+
+drop table if exists e_line_group;
+create table e_line_group ( 
+    line_group_id  	varchar(48) ,
+    name	varchar(50),
+    user_id	varchar(48),
+    space varchar(512),
+    create_time varchar(20),
+    line_id varchar[],
+    PRIMARY KEY(line_group_id)
+);
+
+drop table if exists  e_line_line_group;
+create table e_line_line_group ( 
+    line_group_id  	varchar(48) ,
+    line_id  	varchar(48) ,
+    line_kind varchar(10),
+    PRIMARY KEY(line_id, line_group_id)
+);
+
+drop table if exists e_surface_group ;
+create table e_surface_group ( 
+    surface_group_id  	varchar(48) ,
+    name	varchar(50),
+    user_id  varchar(48),
+    space varchar(512),
+    create_time varchar(20),
+    surface_id varchar[],
+    PRIMARY KEY(surface_group_id)
+);
+
+drop table if exists e_surface_surface_group;
+create table e_surface_surface_group ( 
+    surface_group_id  	varchar(48) ,
+    surface_id  	varchar(48) ,
+    surface_kind varchar(10),
+    PRIMARY KEY(surface_id, surface_group_id)
+);
+
+
